@@ -45,7 +45,7 @@ jobs:
             sudo chmod 777 /var/run/docker.sock
             docker-compose down
             
-            docker-compose up --bulid -d 
+            docker-compose up --build -d 
             
 
 
