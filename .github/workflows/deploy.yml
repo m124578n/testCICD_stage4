@@ -42,7 +42,7 @@ jobs:
             sudo systemctl restart docker
             sudo chmod 777 /var/run/docker.sock
             docker-compose down
-            
+            docker rmi -f testcicd_stage4-pdf_nginx testcicd_stage4-pdf_web
             docker-compose up -d
             
 
