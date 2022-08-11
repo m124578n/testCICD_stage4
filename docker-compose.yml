@@ -6,7 +6,8 @@ services:
                 container_name: pdf_web
                 restart: always
                 command: ["/bin/bash","-c","uwsgi --ini uwsgi.ini"]
-                
+                volumes:
+                        - /home/ec2-user/testCICD_stage4/web/pdfreader_test:/web/pdfreader_test
                 ports:
                         - "8001:8001"
                 environment:
@@ -15,9 +16,11 @@ services:
                 build: ./nginx
                 container_name: pdf_nginx
                 restart: always
-                
+                volumes:
+                        - /home/ec2-user/testCICD_stage4/web/pdfreader_test:/web/pdfreader_test
                 ports:
                         - "80:80"
                 depends_on:
                         - pdf_web
-
+volumes:
+        /home/ec2-user/testCICD_stage4/web/pdfreader_test:
