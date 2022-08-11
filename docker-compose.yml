@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-        cicd_web:
+        pdf_web:
                 build: ./web
-                container_name: cicd_web
+                container_name: pdf_web
                 restart: always
                 command: ["/bin/bash","-c","uwsgi --ini uwsgi.ini"]
                 volumes:
@@ -12,15 +12,15 @@ services:
                         - "8001:8001"
                 environment:
                         - PYTHONUNBUFFERED=TURE
-        cicd_nginx:
+        pdf_nginx:
                 build: ./nginx
-                container_name: cicd_nginx
+                container_name: pdf_nginx
                 restart: always
                 volumes:
                         - web_data:/web/pdfreader_test
                 ports:
                         - "80:80"
                 depends_on:
-                        - cicd_web
+                        - pdf_web
 volumes:
         web_data:
