@@ -1,0 +1,50 @@
+name: Django CD
+# 只有在 CI 的 workflow 完成時才會執行此 workflow
+# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run
+on:
+  workflow_run:
+    workflows: [ Django CI ]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    # 注意前面 workflow_run 的 completed 意思是「完成」，不論執行結果成功或是失敗都算是「完成」
+    # 但是一般來說測試如果失敗就應該暫停部屬至正式環境
+    # 因此這裡加上一個 if 判斷，只有 CI 成功才會執行此 workflow
+    # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
+    steps:
+      # 使用 appleboy/ssh-action@master 這個 action 遠端連線至正式環境
+      # https://github.com/appleboy/ssh-action
+      - name: Deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.TOKEN }}
+          username: ec2-user
+          # 執行部屬的指令
+          script: | 
+            whoami
+        
+            sudo yum -y install docker
+            sudo yum -y install git 
+            sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+            sudo chmod 777 /usr/local/bin/docker-compose
+            docker-compose version
+            cd ~
+            sudo rm -fr *
+            sudo git clone https://github.com/m124578n/testCICD_stage4.git
+            cd testCICD_stage4
+            sudo systemctl restart docker
+            sudo chmod 777 /var/run/docker.sock
+            docker-compose down
+            docker-compose up -d
+            
+
+
+
+            

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Products</title>
+</head>
+<body>
+<!-- Navbar (sit on top) -->
+        <div class= "w3-center" style="margin-top:10% ">
+            <form action="{% url 'file' %}" method="POST" enctype="multipart/form-data">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 上傳pdf : <input accept=".pdf" type="file" name="uploadedFile"  multiple= "multiple" required>
+            <br>
+            <br>
+            <br>
+            <input type="submit" value="上傳"><br><br>
+            </form>
+          </div>
+    <br>
+    <br>
+    <h2 class= "w3-center">  {{message}}</h2>
+  
+</body>
+</html>
