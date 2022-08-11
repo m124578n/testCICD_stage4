@@ -30,7 +30,7 @@ def upload_files(request):
          else:
              return HttpResponse('錯誤')
       if request.method == "POST":
-           #try:
+           try:
                files=request.FILES.getlist('uploadedFile')
                for file_up in files:
                    suffix = file_up.name.rfind('.')
@@ -47,8 +47,8 @@ def upload_files(request):
                       ctx={}
                       ctx['message']=message
                return render(request,'test.html',ctx)
-           #except:
-           #    ctx={}
-           #    ctx['message']='上傳內容有誤或已存在'
-           #    return render(request,'test.html',ctx)
+           except:
+               ctx={}
+               ctx['message']='錯誤測試001啥都沒'
+               return render(request,'test.html',ctx)
 
