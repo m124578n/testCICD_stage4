@@ -44,7 +44,8 @@ jobs:
             sudo systemctl restart docker
             sudo chmod 777 /var/run/docker.sock
             docker-compose down
-            
+            docker rmi -f $(docker images -q  -f dangling=true)
+            docker volume rm $(docker volume ls -q -f dangling=true)
             docker-compose up --build -d 
             
 
