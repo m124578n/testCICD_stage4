@@ -7,9 +7,6 @@ COPY . /web/
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
 
-WORKDIR /web/pdfreader_test
-
-VOLUME /web
 
 EXPOSE 8001
 
