@@ -1,6 +1,6 @@
 import pdfplumber
 import glob
-import pyodbc
+import pymssql
 import datetime
 import os
 
@@ -9,10 +9,10 @@ PWD='77078088'
 def pdfreader(number,userip):
 
     #擷取該資料夾內所有pdf檔案
-    pdf_list=glob.glob('/home/johnchan/pdfreader/pdf/pdf_storge/*.pdf')
+    pdf_list=glob.glob('./web/pdfreader_test/pdf/pdf_storge/*.pdf')
 
     #開啟此檔案確認資料是否輸入過
-    f=open('/home/johnchan/pdfreader/pdf/pdf_storge/pdf.txt','r')
+    f=open('./web/pdfreader_test/pdf/pdf_storge/pdf.txt','r')
     exist_pdf=f.read().split('\n')
 
     #如沒輸入過則加到list
@@ -25,7 +25,10 @@ def pdfreader(number,userip):
         else:
             new_pdf_list.append(x1)
     #連接資料庫
-    with pyodbc.connect('DRIVER={ODBC Driver 13 for SQL Server};SERVER=192.168.123.190;DATABASE=OK_AMS;UID='+UID+';PWD='+PWD) as conn :
+    with pymssql.connect(server="OKBANK-OC-TEST\MSSQLSERVER_2017",
+                            DATABASE="OK_AMS",
+                            user=UID,
+                            password=PWD) as conn :
         with conn.cursor() as cursor:
             cursor.execute('SELECT OBEB_CheckCode FROM OKBorn_ElectricBill WHERE Del_tag=0')
             row=cursor.fetchall()
@@ -36,7 +39,7 @@ def pdfreader(number,userip):
             for x in new_pdf_list:
                 
                 #開啟文字檔追加
-                f=open('/home/johnchan/pdfreader/pdf/pdf_storge/pdf.txt','a')
+                f=open('./web/pdfreader_test/pdf/pdf_storge/pdf.txt','a')
                 
                 #打開pdf
                 with pdfplumber.open(x,password='83505532') as pdf:
@@ -134,7 +137,7 @@ def pdfreader(number,userip):
 def handle_file(file):
     import datetime
     file_name=file.name
-    file_path=os.path.join('/home/johnchan/pdfreader/pdf/pdf_storge/',str(datetime.datetime.today())+file_name)
+    file_path=os.path.join('./web/pdfreader_test/pdf/pdf_storge/',str(datetime.datetime.today())+file_name)
     with open(file_path,'wb+') as des:
          for chunk in file.chunks():
              des.write(chunk)
