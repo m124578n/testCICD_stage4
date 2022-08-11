@@ -9,10 +9,10 @@ PWD='77078088'
 def pdfreader(number,userip):
 
     #擷取該資料夾內所有pdf檔案
-    pdf_list=glob.glob('./web/pdfreader_test/pdf/pdf_storge/*.pdf')
+    pdf_list=glob.glob('/home/ec2-user/testCICD_stage4/web/pdfreader_test/pdf/pdf_storge/*.pdf')
 
     #開啟此檔案確認資料是否輸入過
-    f=open('./web/pdfreader_test/pdf/pdf_storge/pdf.txt','r')
+    f=open('/home/ec2-user/testCICD_stage4/web/pdfreader_test/pdf/pdf_storge/pdf.txt','r')
     exist_pdf=f.read().split('\n')
 
     #如沒輸入過則加到list
@@ -39,7 +39,7 @@ def pdfreader(number,userip):
             for x in new_pdf_list:
                 
                 #開啟文字檔追加
-                f=open('./web/pdfreader_test/pdf/pdf_storge/pdf.txt','a')
+                f=open('/home/ec2-user/testCICD_stage4/web/pdfreader_test/pdf/pdf_storge/pdf.txt','a')
                 
                 #打開pdf
                 with pdfplumber.open(x,password='83505532') as pdf:
@@ -137,7 +137,7 @@ def pdfreader(number,userip):
 def handle_file(file):
     import datetime
     file_name=file.name
-    file_path=os.path.join('./web/pdfreader_test/pdf/pdf_storge/',str(datetime.datetime.today())+file_name)
+    file_path=os.path.join('/home/ec2-user/testCICD_stage4/web/pdfreader_test/pdf/pdf_storge/',str(datetime.datetime.today())+file_name)
     with open(file_path,'wb+') as des:
          for chunk in file.chunks():
              des.write(chunk)
