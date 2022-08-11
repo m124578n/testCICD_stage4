@@ -26,7 +26,7 @@ def pdfreader(number,userip):
             new_pdf_list.append(x1)
     #連接資料庫
     with pymssql.connect(server="OKBANK-OC-TEST\MSSQLSERVER_2017",
-                            DATABASE="OK_AMS",
+                            database="OK_AMS",
                             user=UID,
                             password=PWD) as conn :
         with conn.cursor() as cursor:
